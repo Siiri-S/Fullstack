@@ -1,0 +1,22 @@
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+palvelin-->selain: uudelleenohjauspyyntö 
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+palvelin-->selain: HTML
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+palvelin-->selain: main.js
+
+note over selain:
+selain aloittaa javascript-koodin 
+suorituksen ja pyytää dataa
+JSON-muodossa palvelimelta
+
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin-->selain:[{"content":"prueba spa","date":"2022-06-12T21:31:52.088Z"},...]
+note over selain:
+selain suorittaa tapahtumankäsittelijän ja renderöi
+DOM-apin avulla muistiinpanot
+end note
