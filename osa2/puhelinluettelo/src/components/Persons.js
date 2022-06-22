@@ -1,17 +1,17 @@
 
 const Person = ({person}) => {
     return (
-      <p>{person.name} {person.number}</p>
+      <li>{person.name} {person.number}</li>
     )
   }
   
 const Persons = ({persons}) => {
     return (
-        <>
+        <ul>
             {persons.map(person =>
                 <Person key={person.name} person={person}/>
             )}
-        </>
+        </ul>
     )
 }
 
