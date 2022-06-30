@@ -50,12 +50,11 @@ const App = () => {
           .update(person.id, changedContact)
           .then(returnedPerson => {
             showStatusMessage(`Changed the number of ${contactObject.name}`)
-            setPersons(persons.map(p => p.name !== contactObject.name ? person : returnedPerson))
+            setPersons(persons.map(p => p.name !== contactObject.name ? p : returnedPerson))
           })
           .catch(error => {
-            showErrorMessage(`${person.name} was already deleted from server`)
-            setNewName('')
-            setNewNumber('')
+            console.log(error.response.data)
+            showErrorMessage(`${error.response.data.error}`)
             setPersons(persons.filter(person => person.name !== contactObject.name))
           })
       }
@@ -68,6 +67,10 @@ const App = () => {
           showStatusMessage(`Added ${contactObject.name}`)
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          showErrorMessage(`${error.response.data.error}`)
+          setPersons(persons.filter(person => person.name !== contactObject.name))
         })
     }   
   }
@@ -83,7 +86,7 @@ const App = () => {
         setPersons(persons.filter(person => person.id !== id))
       })
       .catch(error => {
-        showErrorMessage(`${person.name} was already deleted from server`)
+        showErrorMessage(`person was already removed from server`)
         setPersons(persons.filter(person => person.id !== id))
       })
     }
