@@ -109,7 +109,41 @@ describe('HTTP POST /api/blogs tests', () => {
     })
 })
 
+describe('HTTP DELETE /api/blogs/:id tests', () => {
+    test('blog is deletion succeeds with status code 201 when valid id', async () => {
+        const blogsAtBeginning = await helper.blogsInDb()
+        const blogToDelete = blogsAtBeginning[0]
 
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+        
+        const blogsAtEnd = await helper.blogsInDb()
+
+        expect(blogsAtEnd).toHaveLength(blogsAtBeginning.length -1)
+        
+        const titles = blogsAtEnd.map(b => b.title)
+        expect(titles).not.toContain(blogToDelete.title)
+    
+    })
+})
+
+describe('HTTP PUT /api/blogs/:id tests', () => {
+    test('updating likes of a blog suceeds with valid id', async () => {
+        const blogsAtBeginning = await helper.blogsInDb()
+        const blogToUpdate = blogsAtBeginning[0]
+
+        const updatedBlog = {...blogToUpdate, likes: 83}
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(updatedBlog)
+            .expect(200)
+        
+        const newBlogs = await helper.blogsInDb()
+        expect(newBlogs[0].likes).toBe(83)
+    })
+})
 
 afterAll(() => {
     mongoose.connection.close()
