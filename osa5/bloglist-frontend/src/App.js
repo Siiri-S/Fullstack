@@ -10,7 +10,7 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -20,7 +20,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -51,14 +51,14 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({username, password,})
-        setUser(user)
-        setPassword('')
-        setUsername('')
-        window.localStorage.setItem(
-          'loggedUser', JSON.stringify(user)
-        )
-        showStatusMessage('login successful')
+      const user = await loginService.login({ username, password, })
+      setUser(user)
+      setPassword('')
+      setUsername('')
+      window.localStorage.setItem(
+        'loggedUser', JSON.stringify(user)
+      )
+      showStatusMessage('login successful')
     } catch (exception) {
       showErrorMessage('wrong username or password')
     }
@@ -66,7 +66,7 @@ const App = () => {
 
   const handleLogout = async (event) => {
     event.preventDefault()
-    
+
     setUser(null)
     localStorage.clear()
     showStatusMessage('logged out')
@@ -81,7 +81,7 @@ const App = () => {
 
   const likeBlog = async (id) => {
     const blog = blogs.find(b => b.id === id)
-    const changedBlog = {...blog, likes: blog.likes + 1}
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
     const response = await blogService.update(id, changedBlog)
     setBlogs(blogs.map(blog => blog.id !== id ? blog : response))
   }
@@ -91,46 +91,46 @@ const App = () => {
     if (blog.user.username === user.username) {
       if (window.confirm(`remove blog ${blog.title} by ${blog.author}`))
         blogService.remove(id)
-        setBlogs(blogs.filter(blog => blog.id !== id))
-        showStatusMessage(`blog removed`)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+      showStatusMessage('blog removed')
 
     }
   }
 
-  
+
 
   return (
-    
+
     <div>
       <Notification message={errorMessage} type='error' />
       <Notification message={statusMessage} type='status' />
       {user === null
-        ? <Login 
-            handleLogin={handleLogin}
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-        /> 
+        ? <Login
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
         : <>
-            <h2> blogs </h2>
-            <Logout name={user.name} handleLogout={handleLogout}/>
-            <Togglable buttonLabel="create new blog" ref={blogFormRef}> 
-              <BlogForm 
-                createBlog={addBlog}
-              />
-            </Togglable>
-            {blogs.sort((a, b) =>  b.likes -a.likes).map(blog =>
-              <Blog 
-                key={blog.id} 
-                blog={blog} 
-                user={user} 
-                likeBlog={() => likeBlog(blog.id)} 
-                removeBlog={() => deleteBlog(blog.id)} 
-              />
-              )}
-            
-          </>
+          <h2> blogs </h2>
+          <Logout name={user.name} handleLogout={handleLogout}/>
+          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+            <BlogForm
+              createBlog={addBlog}
+            />
+          </Togglable>
+          {blogs.sort((a, b) =>  b.likes -a.likes).map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              user={user}
+              likeBlog={() => likeBlog(blog.id)}
+              removeBlog={() => deleteBlog(blog.id)}
+            />
+          )}
+
+        </>
       }
     </div>
   )
