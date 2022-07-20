@@ -14,12 +14,12 @@ const getAll = () => {
 
 const create = async newBlog => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
 
   const response = await axios.post(baseUrl, newBlog, config)
   return response.data
-  
+
 }
 
 const update = async (id, newObject) => {
@@ -29,12 +29,10 @@ const update = async (id, newObject) => {
 
 const remove = async (id) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   await axios.delete(`${baseUrl}/${id}`, config)
 }
 
 
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, remove, setToken}
+export default { getAll, create, update, remove, setToken }

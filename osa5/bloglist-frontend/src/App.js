@@ -89,10 +89,11 @@ const App = () => {
   const deleteBlog = async (id) => {
     const blog = blogs.find(b => b.id === id)
     if (blog.user.username === user.username) {
-      if (window.confirm(`remove blog ${blog.title} by ${blog.author}`))
+      if (window.confirm(`remove blog ${blog.title} by ${blog.author}`)) {
         blogService.remove(id)
-      setBlogs(blogs.filter(blog => blog.id !== id))
-      showStatusMessage('blog removed')
+        setBlogs(blogs.filter(blog => blog.id !== id))
+        showStatusMessage('blog removed')
+      }
 
     }
   }

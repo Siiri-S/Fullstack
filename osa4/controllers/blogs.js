@@ -16,8 +16,9 @@ blogsRouter.get('/', async (request, response) => {
 // eslint-disable-next-line no-unused-vars
 blogsRouter.post('/', userExtractor, async (request, response, next) => {
 	const body = request.body
-	const user = request.user
 	const token = request.token
+	const user = request.user
+	
 	if (!token) {
 		return response.status(401).json({ error: 'token invalid or missing' })
 	}
