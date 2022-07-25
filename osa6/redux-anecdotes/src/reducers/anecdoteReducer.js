@@ -1,4 +1,4 @@
-import { notInitialized } from "react-redux/es/utils/useSyncExternalStore"
+
 
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -33,6 +33,7 @@ const reducer = (state = initialState, action) => {
         ...oldAnecdote,
         votes: oldAnecdote.votes + 1
       }
+     
       return state.map(anecdote => 
         anecdote.id !== id
           ? anecdote
