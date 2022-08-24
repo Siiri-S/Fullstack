@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import Select from 'react-select';
-import { EDIT_AUTHOR} from '../queries'
+import { EDIT_AUTHOR, ALL_AUTHORS} from '../queries'
 
 const AuthorEditForm = ({authors}) => {
 
     const [year, setYear] = useState('')
     const [selectedOption, setSelectedOption] = useState(null);
-    const [ changeYear ] = useMutation(EDIT_AUTHOR)
+    const [ changeYear ] = useMutation(EDIT_AUTHOR, {
+        refetchQueries: [  {query: ALL_AUTHORS} ],
+    })
 
     const submit = async (event) => {
         event.preventDefault()
